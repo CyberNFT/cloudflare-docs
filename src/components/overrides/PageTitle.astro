@@ -100,8 +100,6 @@ if (!hideBreadcrumbs) {
 			</Breadcrumbs>
 		)
 	}
-
-
 </div>
 
 {!hideTitle && <Default />}
@@ -111,17 +109,17 @@ if (!hideBreadcrumbs) {
 {summary && <Description set:html={marked.parse(summary)} />}
 
 {
-	component && (
-			<div class="sl-markdown-content md-ignore">
-				<ComponentUsage component={component} />
-			</div>
+	showPageActions && (
+		<div class="page-actions-wrapper">
+			<PageActions />
+		</div>
 	)
 }
 
 {
-	showPageActions && (
-		<div class="page-actions-wrapper">
-			<PageActions />
+	component && (
+		<div class="sl-markdown-content md-ignore component-usage-wrapper">
+			<ComponentUsage component={component} />
 		</div>
 	)
 }
@@ -133,6 +131,10 @@ if (!hideBreadcrumbs) {
 
 	.page-actions-wrapper {
 		margin-top: 1rem;
+	}
+
+	.component-usage-wrapper {
+		margin-top: 3rem;
 	}
 
 	:global(.c-breadcrumbs) {
@@ -155,12 +157,15 @@ if (!hideBreadcrumbs) {
 	}
 </style>
 
-{ hideTitle && hideBreadcrumbs &&
-	<style>
-		main {
-			.content-panel:first-of-type {
-				display: none;
-			}
-		}
-	</style>
+{
+	hideTitle && hideBreadcrumbs && (
+		<style
+			is:global
+			set:html={`
+				main .content-panel:first-of-type {
+					display: none;
+				}
+			`}
+		/>
+	)
 }
